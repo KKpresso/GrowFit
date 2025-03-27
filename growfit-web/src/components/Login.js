@@ -11,7 +11,7 @@ import {
   Heading,
   Text,
   Link,
-  useToast,
+  useToast as useChakraToast,
 } from '@chakra-ui/react';
 
 export default function Login() {
@@ -20,7 +20,7 @@ export default function Login() {
   const [loading, setLoading] = useState(false);
   const { login } = useAuth();
   const navigate = useNavigate();
-  const toast = useToast();
+  const toast = useChakraToast();
 
   async function handleSubmit(e) {
     e.preventDefault();
