@@ -27,14 +27,44 @@ export default function Login() {
     
     try {
       setLoading(true);
-      await login(email, password);
+      const userCredential = await login(email, password);
+      console.log('Login successful:', userCredential.user.email);
       navigate('/dashboard');
     } catch (error) {
+      console.error('Login error:', error.code);
+      
+      let errorMessage;
+      let showSignUpLink = false;
+      
+      if (error.code === 'auth/invalid-credential') {
+        errorMessage = 'No account found with this email.';
+        showSignUpLink = true;
+      } else if (error.code === 'auth/user-not-found') {
+        errorMessage = 'No account found with this email.';
+        showSignUpLink = true;
+      } else if (error.code === 'auth/wrong-password') {
+        errorMessage = 'Incorrect password. Please try again.';
+      } else {
+        errorMessage = 'Failed to log in. Please try again.';
+      }
+      
       toast({
-        title: 'Error',
-        description: error.message,
-        status: 'error',
-        duration: 5000,
+        title: showSignUpLink ? 'Account Not Found' : 'Login Error',
+        description: (
+          <Text>
+            {errorMessage}
+            {showSignUpLink && (
+              <>
+                <br />
+                <Link color="blue.500" onClick={() => navigate('/signup')}>
+                  Click here to create an account
+                </Link>
+              </>
+            )}
+          </Text>
+        ),
+        status: 'info',
+        duration: 7000,
         isClosable: true,
       });
     } finally {

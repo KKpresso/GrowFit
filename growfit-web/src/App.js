@@ -5,6 +5,7 @@ import { AuthProvider } from './contexts/AuthContext';
 import Login from './components/Login';
 import Signup from './components/Signup';
 import PrivateRoute from './components/PrivateRoute';
+import TestAuth from './components/TestAuth';
 import './App.css';
 
 function App() {
@@ -23,6 +24,7 @@ function App() {
                 </PrivateRoute>
               }
             />
+            <Route path="/test-auth" element={<TestAuth />} />
             <Route path="/" element={<Navigate to="/login" />} />
           </Routes>
         </AuthProvider>
